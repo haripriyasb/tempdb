@@ -32,7 +32,7 @@ DECLARE @table_counter_before_test BIGINT;
 SELECT @table_counter_before_test = cntr_value FROM sys.dm_os_performance_counters
 WHERE counter_name = 'Temp Tables Creation Rate'
 DECLARE @i INT = 0
-WHILE (@i < 10)
+WHILE (@i < 100)
 BEGIN
 EXEC dbatest.dbo.PopulateTempTable
 SET @i += 1
@@ -44,6 +44,27 @@ PRINT 'Temp tables created during the test: ' + CONVERT(VARCHAR(100), @table_cou
 
 SET @j += 1
 END
+
+/*CREATE INDEX INSIDE OF TABLE DEFINITION*/
+ALTER PROCEDURE PopulateTempTable
+AS
+BEGIN
+/*CREATE A NEW TEMP TABLE*/
+CREATE TABLE #TempTable
+(
+Col1 INT IDENTITY(1, 1) PRIMARY KEY, /*CREATE INDEX INSIDE OF TABLE DEFINITION*/
+Col2 CHAR(4000),
+Col3 CHAR(4000)
+)
+/*INSERT 10 DUMMY RECORDS*/ 
+DECLARE @i INT = 0
+WHILE (@i < 10)
+BEGIN
+INSERT INTO #TempTable VALUES ('New Stars Of Data','TempDB Discussion')
+SET @i += 1
+END
+END
+
 
 
 

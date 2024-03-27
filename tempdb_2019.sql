@@ -70,6 +70,11 @@ GO
 SELECT SERVERPROPERTY('IsTempDBMetadataMemoryOptimized') AS IsTempDBMetadataMemoryOptimized; 
 GO
 
+/*CHECK WHICH SYSTEM TABLES HAVE BEEN CONVERTED TO MEMORY-OPTIMIZED*/
+SELECT t.[object_id], t.name
+  FROM tempdb.sys.all_objects AS t 
+  INNER JOIN tempdb.sys.memory_optimized_tables_internal_attributes AS i
+  ON t.[object_id] = i.[object_id];
 
 ALTER DATABASE [tempdb] ADD FILE ( NAME = N'tempdev_9', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQL2019\MSSQL\DATA\tempdev_9.ndf' , SIZE = 8192KB , FILEGROWTH = 65536KB )
 GO

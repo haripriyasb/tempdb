@@ -71,6 +71,8 @@ SELECT SERVERPROPERTY('IsTempDBMetadataMemoryOptimized') AS IsTempDBMetadataMemo
 GO
 
 /*CHECK WHICH SYSTEM TABLES HAVE BEEN CONVERTED TO MEMORY-OPTIMIZED*/
+USE TEMPDB
+GO
 SELECT t.[object_id], t.name
   FROM tempdb.sys.all_objects AS t 
   INNER JOIN tempdb.sys.memory_optimized_tables_internal_attributes AS i

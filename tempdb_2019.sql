@@ -78,6 +78,8 @@ SELECT t.[object_id], t.name
   INNER JOIN tempdb.sys.memory_optimized_tables_internal_attributes AS i
   ON t.[object_id] = i.[object_id];
 
+
+/*ADD MORE TEMPDB DATA FILES*/
 ALTER DATABASE [tempdb] ADD FILE ( NAME = N'tempdev_9', FILENAME = N'T:\MSSQL15.SQL2019\DATA\tempdev_9.ndf' , SIZE = 8192KB , FILEGROWTH = 65536KB )
 GO
 ALTER DATABASE [tempdb] ADD FILE ( NAME = N'tempdev_10', FILENAME = N'T:\MSSQL15.SQL2019\DATA\tempdev_10.ndf' , SIZE = 8192KB , FILEGROWTH = 65536KB )

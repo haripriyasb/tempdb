@@ -21,5 +21,5 @@ FROM sys.dm_exec_requests AS er
 CROSS APPLY sys.dm_exec_sql_text(er.sql_handle) AS st 
 CROSS APPLY sys.fn_PageResCracker (er.page_resource) AS r  
 CROSS APPLY sys.dm_db_page_info(r.[db_id], r.[file_id], r.page_id, 'DETAILED') AS page_info
-WHERE er.wait_type like '%page%'
+WHERE er.wait_type like 'PAGELATCH%'
 GO

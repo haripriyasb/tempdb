@@ -1,4 +1,6 @@
 --RESET SCRIPT
+USE TEMPDB
+GO
 declare @count int
 select @count=count(*) from sys.database_files where type_desc='ROWS'
 print @count

@@ -19,7 +19,7 @@ AND WAIT_TYPE IN ('PAGELATCH_SH','PAGELATCH_UP','PAGELATCH_EX')THEN 'METADATA CO
 END AS allocation_type
 FROM sys.dm_exec_requests AS er
 CROSS APPLY sys.dm_exec_sql_text(er.sql_handle) AS st 
-CROSS APPLY sys.fn_PageResCracker (er.page_resource) AS r  
-CROSS APPLY sys.dm_db_page_info(r.[db_id], r.[file_id], r.page_id, 'DETAILED') AS page_info
+CROSS APPLY sys.fn_PageResCracker (er.page_resource) AS r --database ID, file ID, page ID SQL2019
+CROSS APPLY sys.dm_db_page_info(r.[db_id], r.[file_id], r.page_id, 'DETAILED') AS page_info --replace dbcc page SQL2019
 WHERE er.wait_type like 'PAGELATCH%'
 GO

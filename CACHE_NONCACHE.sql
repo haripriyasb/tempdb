@@ -18,7 +18,7 @@ INSERT INTO #TempTable VALUES ('New Stars Of Data','TempDB Discussion')
 SET @i += 1
 END
 END
-
+GO
 
 /*EXECUTE SP TO GET TEMP TABLE CREATION RATE*/
 /*VERIFY TEMPTABLE IS REUSED FROM CACHE*/
@@ -43,7 +43,7 @@ PRINT 'Temp tables created during the test: ' + CONVERT(VARCHAR(100), @table_cou
 
 SET @j += 1
 END
-
+GO
 
 
 /*CREATE INDEX OUTSIDE OF TABLE DEFINITION*/
@@ -69,7 +69,7 @@ INSERT INTO #TempTable VALUES ('New Stars Of Data','TempDB Discussion')
 SET @i += 1
 END
 END
-
+GO
 
 /*EXECUTE SP TO GET TEMP TABLE CREATION RATE*/
 /*VERIFY TEMPTABLE IS *NOT* REUSED FROM CACHE*/
@@ -94,4 +94,4 @@ PRINT 'Temp tables created during the test: ' + CONVERT(VARCHAR(100), @table_cou
 
 SET @j += 1
 END
-
+GO

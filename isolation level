@@ -27,3 +27,50 @@ SET TRANSACTION ISOLATION LEVEL READ COMMITTED
 SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
 SET TRANSACTION ISOLATION LEVEL SNAPSHOT
 SET TRANSACTION ISOLATION LEVEL SERIALIZABLE
+
+-------
+dbcc useroptions
+sp_whoisactive
+SELECT * FROM DemoTable WHERE ID = 3;
+
+
+SELECT name, snapshot_isolation_state_desc,
+is_read_committed_snapshot_on FROM sys.databases
+where name = 'VersionDB'
+
+
+SELECT top 5 a.session_id, b.open_tran, b.status, 
+a.elapsed_time_seconds/60.0 as 'elapsed_time_mins',
+b.program_name
+FROM sys.dm_tran_active_snapshot_database_transactions a
+join sys.sysprocesses b
+on a.session_id = b.spid
+ORDER BY elapsed_time_seconds DESC
+
+dbcc sqlperf(logspace)
+
+----space consumed in tempdb, by version store of each database
+SELECT 
+  DB_NAME(database_id) as 'Database Name',
+  reserved_page_count,
+  reserved_space_kb/1024/1024.0 as  'reserved_space_GB'
+FROM sys.dm_tran_version_store_space_usage
+where 
+--DB_NAME(database_id)=''
+--AND
+reserved_space_kb >0
+order by 1;
+
+--displays all version records in the version store
+SELECT *  FROM tempdb.sys.dm_tran_version_store;
+
+dbcc opentran
+
+--find open & sleeping tran
+sp_whoisactive
+@show_sleeping_spids =1,
+@filter_type='database'
+, @filter='versiondb'
+, @sort_order='tempdb_allocation desc'
+,@output_column_list = '[session_id][dd hh:mm:ss.mss][open_tran_count][status][database_name][tempdb%][%]'
+

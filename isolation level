@@ -74,3 +74,14 @@ sp_whoisactive
 , @sort_order='tempdb_allocation desc'
 ,@output_column_list = '[session_id][dd hh:mm:ss.mss][open_tran_count][status][database_name][tempdb%][%]'
 
+
+-----
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED 
+
+ALTER DATABASE versiondb
+SET READ_COMMITTED_SNAPSHOT OFF
+
+SELECT name, snapshot_isolation_state_desc,
+is_read_committed_snapshot_on FROM sys.databases
+where name = 'VersionDB'
+
